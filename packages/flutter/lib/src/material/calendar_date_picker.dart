@@ -1129,6 +1129,7 @@ class YearPicker extends StatefulWidget {
 
 class _YearPickerState extends State<YearPicker> {
   late ScrollController _scrollController;
+  late MaterialLocalizations _localizations;
 
   // The approximate number of years necessary to fill the available space.
   static const int minYears = 18;
@@ -1145,6 +1146,12 @@ class _YearPickerState extends State<YearPicker> {
     if (widget.selectedDate != oldWidget.selectedDate) {
       _scrollController.jumpTo(_scrollOffsetForYear(widget.selectedDate));
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _localizations = MaterialLocalizations.of(context);
   }
 
   double _scrollOffsetForYear(DateTime date) {
@@ -1215,7 +1222,7 @@ class _YearPickerState extends State<YearPicker> {
           child: Semantics(
             selected: isSelected,
             button: true,
-            child: Text(year.toString(), style: itemStyle),
+            child: Text(_localizations.formatYear(DateTime(year)), style: itemStyle),
           ),
         ),
       ),
